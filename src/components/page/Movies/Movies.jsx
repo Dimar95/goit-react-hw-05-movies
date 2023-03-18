@@ -20,10 +20,10 @@ const Movies = () => {
         setArrayMoviebyQuery(results.data.results);
       });
   }, [query]);
-  const updateQueryString = movie => {
-    const nextParams = movie !== '' ? { movie } : {};
-    updateQueryString(nextParams);
-  };
+  //   const updateQueryString = movie => {
+  //     const nextParams = movie !== '' ? { movie } : {};
+  //     updateQueryString(nextParams);
+  //   };
   return (
     <>
       <form
