@@ -1,0 +1,11 @@
+.pageHeader{
+display: flex;
+color: brown;
+text-decoration: none;
+border-bottom: 1px #f4f4f4 solid;
+}
+.navLink{
+    margin-left: 30px;
+padding: 20px;
+
+}
