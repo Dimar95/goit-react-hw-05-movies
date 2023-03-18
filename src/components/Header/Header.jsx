@@ -1,16 +1,12 @@
-import { NavLink, Outlet } from 'react-router-dom';
-import css from './Header.module.css';
+import { Outlet } from 'react-router-dom';
+import { StyledLink, PageHeader } from './Header.styled.jsx';
 const Header = () => {
   return (
     <>
-      <header className={css.pageHeader}>
-        <NavLink className={css.navLink} to="/">
-          Home
-        </NavLink>
-        <NavLink className={css.navLink} to="/movies">
-          Movies
-        </NavLink>
-      </header>
+      <PageHeader>
+        <StyledLink to="/">Home</StyledLink>
+        <StyledLink to="/movies">Movies</StyledLink>
+      </PageHeader>
       <Outlet />
     </>
   );

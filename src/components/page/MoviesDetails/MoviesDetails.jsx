@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { useParams, Outlet, Link } from 'react-router-dom';
+import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { format, parse } from 'date-fns';
 import css from './MoviesDetails.module.css';
@@ -8,6 +8,8 @@ const MoviesDetails = () => {
   const [renderMovie, setRenderMovie] = useState('');
   const { movieId } = useParams();
   const firstRender = useRef(true);
+  const location = useLocation();
+  console.log('🚀 ~ location:', location);
 
   useEffect(() => {
     axios
@@ -33,9 +35,12 @@ const MoviesDetails = () => {
       title,
     });
   }, [activMovie, firstRender]);
+  const backLinkHref = location.state?.from ?? '/movies';
   const { img, date, userScore, genres, overview, title } = renderMovie;
   return (
     <>
+      <Link to={backLinkHref}>Back to search</Link>
+
       <div className={css.movieContainer}>
         <div>
           <img src={img} alt={title} />
@@ -59,7 +64,6 @@ const MoviesDetails = () => {
         </ul>
       </div>
       <Outlet />
-      <div>Now showing product with id - {movieId}</div>
     </>
   );
 };
