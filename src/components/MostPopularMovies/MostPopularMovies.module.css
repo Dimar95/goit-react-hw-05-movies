@@ -1,0 +1,25 @@
+.mostPopularMovies{
+    text-decoration: none;
+color: #212121;
+border-bottom: 1px #212121 solid;
+background-color: #d8e1f3;
+padding: 8px;
+/* margin: 6px; */
+width: 600px;
+text-align: center;
+
+}
+.mostPopularMoviesItem{
+    list-style-type: none;
+    display: flex;
+
+}
+.mostPopularMoviesList{
+
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

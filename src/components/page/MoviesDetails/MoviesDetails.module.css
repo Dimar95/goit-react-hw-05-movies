@@ -2,3 +2,45 @@
     display: flex;
     flex-direction: row;
 }
+.linkBack{
+    display: block;
+    padding: 12px;
+    background-color: #a9ddff;
+    margin: 0;
+    border-end-end-radius: 20px;
+    border-bottom-left-radius: 20px;
+    width: 130px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 24px;
+}
+.imgMovie{
+    width: 300px;
+    margin-right: 30px;
+}
+.linkList{
+    display: flex;
+    width: 100%;
+    padding: 0;
+
+}
+.linkItem{
+    display: flex;
+    padding: 16px;
+background-color: aqua;
+width: 50%;
+justify-content: space-around;
+color: #000;
+text-decoration: none;
+color: brown;
+font-size: 24px;
+font-weight: 600;
+letter-spacing: 10px;
+background-color: #a9ddff;
+
+}
+.linkItem:first-child{
+    border-right: 1px #000 solid;
+}

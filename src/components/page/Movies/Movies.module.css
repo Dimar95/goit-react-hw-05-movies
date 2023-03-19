@@ -1,0 +1,55 @@
+.form{
+    padding: 16px;
+    background-color: #a9ddff;
+    margin: 0;
+    width: 600px;
+    border-end-end-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+.inputSearch{
+    padding: 6px;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    border-color: transparent;
+    outline: transparent;
+font-size: 16px;
+width: 400px;
+margin-left: 50px;
+
+    /* border-bottom-right-radius: 8px; */
+}
+.buttonSearch{
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 6px;
+background-color: #3a37ff;
+color: #f4f4f4;
+font-size: 16px;
+font-weight: 600;
+
+}
+.moviesS{
+    text-decoration: none;
+color: #212121;
+border-bottom: 1px #212121 solid;
+background-color: #d8e1f3;
+padding: 8px;
+/* margin: 6px; */
+width: 600px;
+
+
+}
+.moviesItem{
+    list-style-type: none;
+    display: flex;
+
+}
+.moviesList{
+
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+
+}

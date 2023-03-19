@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import css from './Movies.module.css';
 
 const Movies = () => {
   const [inputValue, setInputValue] = useState('');
@@ -9,6 +13,7 @@ const Movies = () => {
   const location = useLocation();
   const movieName = searchParams.get('movie');
   const [query, setQuery] = useState(() => movieName || '');
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     if (query === '') {
@@ -20,6 +25,20 @@ const Movies = () => {
       )
       .then(results => {
         setArrayMoviebyQuery(results.data.results);
+      })
+      .catch(error => {
+        console.log(error.message);
+        setStatus('error');
+        toast.error(`${error.message}`, {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
       });
   }, [query]);
 
@@ -27,6 +46,7 @@ const Movies = () => {
     <>
       <form
         action=""
+        className={css.form}
         onSubmit={e => {
           e.preventDefault();
           setSearchParams({ movie: inputValue });
@@ -34,6 +54,7 @@ const Movies = () => {
         }}
       >
         <input
+          className={css.inputSearch}
           type="text"
           name="search"
           value={inputValue}
@@ -42,18 +63,38 @@ const Movies = () => {
           }}
         />
         <label htmlFor="search"></label>
-        <button type="submit">Search</button>
+        <button className={css.buttonSearch} type="submit">
+          Search
+        </button>
       </form>
       {arrayMovieByQuery.length > 1 && (
-        <ul>
+        <ul className={css.moviesList}>
           {arrayMovieByQuery.map(movie => (
-            <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+            <li key={movie.id} className={css.moviesItem}>
+              <Link
+                className={css.moviesS}
+                to={`/movies/${movie.id}`}
+                state={{ from: location }}
+              >
                 {movie.title}
               </Link>
             </li>
           ))}
         </ul>
+      )}
+      {status === 'error' && (
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       )}
     </>
   );

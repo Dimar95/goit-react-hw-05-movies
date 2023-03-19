@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { format, parse } from 'date-fns';
 import css from './MoviesDetails.module.css';
@@ -9,13 +11,27 @@ const MoviesDetails = () => {
   const { movieId } = useParams();
   const firstRender = useRef(true);
   const location = useLocation();
-
+  const [status, setStatus] = useState('');
   useEffect(() => {
     axios
       .get(
         `https://api.themoviedb.org/3/movie/${movieId}?api_key=0fe50c86842745b16f2f012241d0925e&language=en-US`
       )
-      .then(results => setActivMovie(results.data));
+      .then(results => setActivMovie(results.data))
+      .catch(error => {
+        console.log(error.message);
+        setStatus('error');
+        toast.error(`${error.message}`, {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      });
   }, [movieId]);
   useMemo(() => {
     if (firstRender.current) {
@@ -31,7 +47,7 @@ const MoviesDetails = () => {
         : 'https://full-hd.info/komediya/kenny-1/kenny-1.jpg',
       date: data,
       userScore: vote_average,
-      genres: genres.map(genre => genre.name),
+      genres: genres.map(genre => ` ${genre.name}`),
       overview,
       title,
     });
@@ -40,11 +56,13 @@ const MoviesDetails = () => {
   const { img, date, userScore, genres, overview, title } = renderMovie;
   return (
     <>
-      <Link to={backLinkHref}>Back to search</Link>
+      <Link className={css.linkBack} to={backLinkHref}>
+        Back to search
+      </Link>
 
       <div className={css.movieContainer}>
         <div>
-          <img src={img} alt={title} />
+          <img className={css.imgMovie} src={img} alt={title} />
         </div>
         <div>
           <h1>
@@ -59,16 +77,38 @@ const MoviesDetails = () => {
       </div>
       <div>
         <h3>Additional information</h3>
-        <ul>
-          <Link to="cast" state={{ from: backLinkHref }}>
+        <ul className={css.linkList}>
+          <Link
+            className={css.linkItem}
+            to="cast"
+            state={{ from: backLinkHref }}
+          >
             Cast
           </Link>
-          <Link to="reviews" state={{ from: backLinkHref }}>
+          <Link
+            className={css.linkItem}
+            to="reviews"
+            state={{ from: backLinkHref }}
+          >
             Reviews
           </Link>
         </ul>
       </div>
       <Outlet />
+      {status === 'error' && (
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+      )}
     </>
   );
 };
