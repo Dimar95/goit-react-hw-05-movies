@@ -4,10 +4,12 @@ import { Link, useSearchParams, useLocation } from 'react-router-dom';
 
 const Movies = () => {
   const [inputValue, setInputValue] = useState('');
-  const [query, setQuery] = useState('');
   const [arrayMovieByQuery, setArrayMoviebyQuery] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
+  const movieName = searchParams.get('movie');
+  const [query, setQuery] = useState(() => movieName || '');
+
   useEffect(() => {
     if (query === '') {
       return;
@@ -20,18 +22,15 @@ const Movies = () => {
         setArrayMoviebyQuery(results.data.results);
       });
   }, [query]);
-  //   const updateQueryString = movie => {
-  //     const nextParams = movie !== '' ? { movie } : {};
-  //     updateQueryString(nextParams);
-  //   };
+
   return (
     <>
       <form
         action=""
         onSubmit={e => {
           e.preventDefault();
-          setQuery(inputValue);
           setSearchParams({ movie: inputValue });
+          setQuery(inputValue);
         }}
       >
         <input

@@ -1,13 +1,15 @@
 import { Routes, Route } from 'react-router-dom';
-import Header from './Header/Header';
-import Cast from './Cast/Cast';
-import Reviews from './Reviews/Reviews';
-import Home from './page/Home/Home';
-import Movies from './page/Movies/Movies';
-import MoviesDetails from './page/MoviesDetails/MoviesDetails';
-import NotFound from './page/NotFound/NotFound';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy } from 'react';
 import axios from 'axios';
+
+const Header = lazy(() => import('./Header/Header'));
+
+const Cast = lazy(() => import('./Cast/Cast'));
+const Reviews = lazy(() => import('./Reviews/Reviews'));
+const Home = lazy(() => import('./page/Home/Home'));
+const Movies = lazy(() => import('./page/Movies/Movies'));
+const MoviesDetails = lazy(() => import('./page/MoviesDetails/MoviesDetails'));
+const NotFound = lazy(() => import('./page/NotFound/NotFound'));
 
 export const App = () => {
   const [arrayFilms, setArrayFilms] = useState([]);

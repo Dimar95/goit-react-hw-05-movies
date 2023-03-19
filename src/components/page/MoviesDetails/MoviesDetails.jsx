@@ -9,7 +9,6 @@ const MoviesDetails = () => {
   const { movieId } = useParams();
   const firstRender = useRef(true);
   const location = useLocation();
-  console.log('🚀 ~ location:', location);
 
   useEffect(() => {
     axios
@@ -27,7 +26,9 @@ const MoviesDetails = () => {
       activMovie;
     const data = format(parse(release_date, 'yyyy-mm-dd', new Date()), 'yyyy');
     setRenderMovie({
-      img: `https://image.tmdb.org/t/p/w500/${poster_path}`,
+      img: poster_path
+        ? `https://image.tmdb.org/t/p/w500/${poster_path}`
+        : 'https://full-hd.info/komediya/kenny-1/kenny-1.jpg',
       date: data,
       userScore: vote_average,
       genres: genres.map(genre => genre.name),
@@ -59,8 +60,12 @@ const MoviesDetails = () => {
       <div>
         <h3>Additional information</h3>
         <ul>
-          <Link to="cast">Cast</Link>
-          <Link to="reviews">Reviews</Link>
+          <Link to="cast" state={{ from: backLinkHref }}>
+            Cast
+          </Link>
+          <Link to="reviews" state={{ from: backLinkHref }}>
+            Reviews
+          </Link>
         </ul>
       </div>
       <Outlet />
