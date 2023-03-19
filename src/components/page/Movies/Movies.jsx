@@ -67,7 +67,7 @@ const Movies = () => {
           Search
         </button>
       </form>
-      {arrayMovieByQuery.length > 1 && (
+      {arrayMovieByQuery.length > 0 ? (
         <ul className={css.moviesList}>
           {arrayMovieByQuery.map(movie => (
             <li key={movie.id} className={css.moviesItem}>
@@ -81,6 +81,8 @@ const Movies = () => {
             </li>
           ))}
         </ul>
+      ) : (
+        <div>Movies not found</div>
       )}
       {status === 'error' && (
         <ToastContainer
