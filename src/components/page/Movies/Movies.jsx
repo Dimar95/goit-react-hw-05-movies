@@ -5,26 +5,29 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import css from './Movies.module.css';
+import Loader from '../../Loader/Loader';
 
 const Movies = () => {
-  const [inputValue, setInputValue] = useState('');
   const [arrayMovieByQuery, setArrayMoviebyQuery] = useState('');
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams('');
   const location = useLocation();
-  const movieName = searchParams.get('movie');
-  const [query, setQuery] = useState(() => movieName || '');
+  const movieName = searchParams.get('query') ?? '';
   const [status, setStatus] = useState('');
+  const [query, setQuery] = useState(() => movieName);
 
   useEffect(() => {
     if (query === '') {
       return;
     }
+
+    setStatus('loader');
     axios
       .get(
         `https://api.themoviedb.org/3/search/movie?api_key=0fe50c86842745b16f2f012241d0925e&language=en-US&query=${query}&page=1&include_adult=false`
       )
       .then(results => {
         setArrayMoviebyQuery(results.data.results);
+        setStatus(results.data.results.length > 0 ? 'success' : 'notFound');
       })
       .catch(error => {
         console.log(error.message);
@@ -49,17 +52,16 @@ const Movies = () => {
         className={css.form}
         onSubmit={e => {
           e.preventDefault();
-          setSearchParams({ movie: inputValue });
-          setQuery(inputValue);
+          setQuery(movieName);
         }}
       >
         <input
           className={css.inputSearch}
           type="text"
           name="search"
-          value={inputValue}
+          value={movieName}
           onChange={e => {
-            setInputValue(e.currentTarget.value);
+            setSearchParams({ query: e.target.value });
           }}
         />
         <label htmlFor="search"></label>
@@ -67,7 +69,7 @@ const Movies = () => {
           Search
         </button>
       </form>
-      {arrayMovieByQuery.length > 0 ? (
+      {status === 'success' && (
         <ul className={css.moviesList}>
           {arrayMovieByQuery.map(movie => (
             <li key={movie.id} className={css.moviesItem}>
@@ -81,9 +83,9 @@ const Movies = () => {
             </li>
           ))}
         </ul>
-      ) : (
-        <div>Movies not found</div>
       )}
+      {status === 'notFound' && <div>Movies not found</div>}
+      {status === 'loader' && <Loader />}
       {status === 'error' && (
         <ToastContainer
           position="top-center"

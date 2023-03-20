@@ -1,43 +1,24 @@
 import { Routes, Route } from 'react-router-dom';
-import { useState, useEffect, lazy } from 'react';
-import axios from 'axios';
-
+import { lazy } from 'react';
+import Cast from './Cast/Cast';
+import Reviews from './Reviews/Reviews';
 const Header = lazy(() => import('./Header/Header'));
-
-const Cast = lazy(() => import('./Cast/Cast'));
-const Reviews = lazy(() => import('./Reviews/Reviews'));
 const Home = lazy(() => import('./page/Home/Home'));
 const Movies = lazy(() => import('./page/Movies/Movies'));
 const MoviesDetails = lazy(() => import('./page/MoviesDetails/MoviesDetails'));
 
 export const App = () => {
-  const [arrayFilms, setArrayFilms] = useState([]);
-  // const [activMovieId, setActivMovieId] = useState('');
-  // const [activMovie, setActivMovie] = useState('');
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://api.themoviedb.org/3/trending/movie/day?api_key=0fe50c86842745b16f2f012241d0925e`
-      )
-      .then(results => setArrayFilms(results.data.results))
-      .catch(error => console.log('🚀 ~ error:', error.message));
-  }, []);
-
   return (
     <>
       <Routes>
         <Route path="/" element={<Header />}>
-          <Route index element={<Home arrayFilms={arrayFilms} />} />
+          <Route index element={<Home />} />
           <Route path="movies" element={<Movies />} />
-          <Route
-            path="movies/:movieId"
-            element={<MoviesDetails arrayFilms={arrayFilms} />}
-          >
+          <Route path="movies/:movieId" element={<MoviesDetails />}>
             <Route path="cast" element={<Cast />} />
             <Route path="reviews" element={<Reviews />} />
           </Route>
-          <Route path="*" element={<Home arrayFilms={arrayFilms} />} />
+          <Route path="*" element={<Home />} />
         </Route>
       </Routes>
     </>
